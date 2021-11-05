@@ -1,0 +1,11 @@
+José Antonio Valencia Aricapa 
+Magister en Ciencias-Fisica, Ingeniero Físico 
+Universidad Nacional de Colombia 
+Actualmente trabajo como investigador en el laboratorio PCM Computational Applications 
+de la misma Universidad.
+Pertenezco a este laboratorio desde hace unos 5 años, donde he aprendido las bases de 
+programación en lenguaje Python, además, aprendí métodos de simulación científica enfocada 
+en la simulación de materiales magnéticos a nano y micro escala utizando el método Monte Carlo.
+Me encanta la programación y la física. Aporveché la oportunidad que brinda mintic, para 
+ampliar mis conocimientos de programación en esta área, y espero sea un buen punto de patida 
+para proyectos futuros.  
