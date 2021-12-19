@@ -575,7 +575,7 @@ const Avance = ({
             <div className="">
               {userData === idUsuario ? (
                 <div className="absolute md:right-10 md:top-10">
-                  <PrivateComponent roleList={["ADMINISTRADOR", "LIDER"]}>
+                  <PrivateComponent roleList={["ADMINISTRADOR", "ESTUDIANTE"]}>
                     <i
                       className="mx-4 fas fa-pen text-yellow-600 hover:text-yellow-400"
                       onClick={() => setEditarDesc(!editarDesc)}
