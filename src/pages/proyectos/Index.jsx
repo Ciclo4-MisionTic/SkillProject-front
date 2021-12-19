@@ -28,17 +28,19 @@ const IndexProyectos = () => {
         <PrivateComponent roleList={["LIDER", "ADMINISTRADOR"]}>
           <div className="w-full border-b border-gray-200 flex items-center justify-end p-2">
             <div className="">
-              <button className="bg-indigo-500 text-gray-50 p-2 rounded-lg shadow-lg hover:bg-indigo-400">
-                <Link to={`/proyectos/mis-proyectos/${userData._id}`}>
+              <Link to={`/proyectos/mis-proyectos/${userData._id}`}>
+                <button className="bg-indigo-500 text-gray-50 p-2 rounded-lg shadow-lg hover:bg-indigo-400">
                   Mis Proyectos
-                </Link>
-              </button>
+                </button>
+              </Link>
             </div>
             {/* crear nuevo proyecto */}
             <div className="mx-3">
-              <button className="bg-indigo-500 text-gray-50 p-2 rounded-lg shadow-lg hover:bg-indigo-400">
-                <Link to="/proyectos/nuevo">Crear nuevo proyecto</Link>
-              </button>
+              <Link to="/proyectos/nuevo">
+                <button className="bg-indigo-500 text-gray-50 p-2 rounded-lg shadow-lg hover:bg-indigo-400">
+                  Crear nuevo proyecto
+                </button>
+              </Link>
             </div>
             {/* fin crear nuevo proyecto */}
           </div>
