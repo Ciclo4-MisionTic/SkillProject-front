@@ -135,8 +135,8 @@ const SidebarRouteImagen = ({ to, title, icon }) => {
         to={to}
         className={({ isActive }) =>
           isActive
-            ? 'sidebar-route text-white bg-indigo-700'
-            : 'sidebar-route text-gray-900 hover:text-white hover:bg-indigo-400'
+            ? 'sidebar-route text-white bg-selected'
+            : 'sidebar-route text-white hover:text-white hover:bg-gray-700'
         }
       >
         <div className='flex items-center'>

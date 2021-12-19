@@ -11,7 +11,9 @@ const IndexUsuarios = () => {
   const { data, error, loading, refetch } = useQuery(GET_USUARIOS);
 
   useEffect(()=>{
-    refetch();
+    if(data){
+      refetch();
+    }
   }, [data]);
   
   useEffect(() => {
