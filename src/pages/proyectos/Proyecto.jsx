@@ -670,8 +670,8 @@ const CrearAvance = ({ idProyecto, creadoPor }) => {
       },
     });
     crearAvance
-      ? toast.success("Objetivo creado con exito")
-      : toast.error("Ups algo salio mal, no se pudo crear el objetivo");
+      ? toast.success("Avance creado con exito")
+      : toast.error("Ups algo salio mal, no se pudo crear el avance");
   };
 
   useEffect(() => {
