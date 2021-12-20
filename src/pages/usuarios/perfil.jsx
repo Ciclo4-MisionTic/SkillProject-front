@@ -14,7 +14,7 @@ const Perfil = () => {
     const { form, formData, updateFormData } = useFormData();
     const { userData, setUserData } = useUser();
 
-    const [editarPerfil, { data: dataMutation, loading: loadingMutation }] =
+    const [editarPerfil, { data: dataMutation, loading: loadingMutation, error: errorMutation}] =
         useMutation(EDITAR_PERFIL);
 
     const {
@@ -27,10 +27,6 @@ const Perfil = () => {
         _id: userData._id,
         },
     });
-
-    useEffect(()=>{
-        refetch();
-    }, [queryData]);
 
     useEffect(() => {
         if (queryError) {
@@ -45,6 +41,13 @@ const Perfil = () => {
             refetch();
         }
     }, [dataMutation]);
+
+    useEffect(() => {
+        if (errorMutation) {
+          toast.error('Error al modificar el perfil');
+        }
+      }, [errorMutation]);
+    
 
 
     const submitForm = async (e) => {
@@ -98,7 +101,7 @@ const Perfil = () => {
                         <button
                         type='button'
                         onClick={() => setEditFoto(true)}
-                        className='bg-indigo-300 p-1 my-2 rounded-md text-white'
+                        className='bg-indigo-300 p-1 my-2 rounded-md text-white hover:bg-indigo-400'
                         >
                         Cambiar imagen
                         </button>
@@ -109,7 +112,7 @@ const Perfil = () => {
                         <button
                         type='button'
                         onClick={() => setEditFoto(false)}
-                        className='bg-indigo-300 p-1 my-2 rounded-md text-white'
+                        className='bg-indigo-300 p-1 my-2 rounded-md text-white hover:bg-indigo-400'
                         >
                         Cancelar
                         </button>
