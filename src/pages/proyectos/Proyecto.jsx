@@ -166,7 +166,7 @@ const Proyecto = () => {
                 ""
               )}
               <div className="flex items-center justify-between ">
-                <h2 className="font-24 text-white font-bold">
+                <h2 className="font-24 text-white font-bold uppercase">
                   {queryData.Proyecto.nombre}
                 </h2>
                 <PrivateComponent roleList={["ESTUDIANTE"]}>
@@ -177,26 +177,60 @@ const Proyecto = () => {
                   />
                 </PrivateComponent>
               </div>
-              <div className="flex flex-col text-white font-bold">
-                <span className="">estado: {queryData.Proyecto.estado}</span>
-                <span className="">fase: {queryData.Proyecto.fase}</span>
-                <span>presupuesto: {queryData.Proyecto.presupuesto} COP</span>
-              </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col text-white font-bold pt-3">
                 <span>
-                  fecha inicio: {queryData.Proyecto.fechaInicio.slice(0, -14)}
+                  Estado:{" "}
+                  <span className="font-normal lowercase">
+                    {queryData.Proyecto.estado}
+                  </span>
                 </span>
                 <span>
-                  fecha fin: {queryData.Proyecto.fechaFin.slice(0, -14)}
+                  Fase:{" "}
+                  <span className="font-normal lowercase ">
+                    {queryData.Proyecto.fase}
+                  </span>
+                </span>
+                <span>
+                  Presupuesto:{" "}
+                  <span className="font-normal">
+                    {queryData.Proyecto.presupuesto} COP
+                  </span>
+                </span>
+
+                <span>
+                  Fecha inicio:{" "}
+                  <span className="font-normal">
+                    {queryData.Proyecto.fechaInicio.slice(0, -14)}
+                  </span>
+                </span>
+                <span>
+                  Fecha fin:{" "}
+                  <span className="font-normal">
+                    {queryData.Proyecto.fechaFin.slice(0, -14)}
+                  </span>
                 </span>
               </div>
-              <div className="flex flex-col mb-4 mt-4">
+              <div className=" mb-4 mt-4">
                 <h2>datos del lider: </h2>
-                <span>
-                  nombre: {queryData.Proyecto.lider.nombre}{" "}
-                  {queryData.Proyecto.lider.apellido}
-                </span>
-                <span>correo: {queryData.Proyecto.lider.correo}</span>
+                <div className="pl-4 flex flex-col">
+                  <span className="font-bold">
+                    Nombre:{" "}
+                    <span className="font-normal">
+                      {queryData.Proyecto.lider.nombre}{" "}
+                      {queryData.Proyecto.lider.apellido}
+                    </span>
+                  </span>
+                  <span className="font-bold">
+                    Correo:
+                    <a
+                      className="no-underline"
+                      href={`mailto:${queryData.Proyecto.lider.correo}`}
+                    >
+                      {" "}
+                      {queryData.Proyecto.lider.correo}
+                    </a>
+                  </span>
+                </div>
               </div>
             </div>
           )}
@@ -555,7 +589,7 @@ const Avance = ({
     <div className="sm:mx-5 relative text-black my-4 bg-gray-50 p-8 rounded-lg flex flex-col shadow-xl">
       {editarDesc ? (
         <>
-          <div className="absolute sm:right-5 right-1 top-3 sm:top-5 ">
+          <div className="absolute right-1 top-3 sm:right-5 sm:top-20 ">
             <PrivateComponent roleList={["ADMINISTRADOR", "ESTUDIANTE"]}>
               <Tooltip title="Cerrar" arrow>
                 <i
