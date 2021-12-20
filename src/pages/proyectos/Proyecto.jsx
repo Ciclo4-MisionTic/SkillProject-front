@@ -25,6 +25,7 @@ import { CREAR_AVANCE } from "graphql/proyectos/mutations";
 import { EDITAR_DESCRIPCION } from "graphql/proyectos/mutations";
 import { EDITAR_OBSERVACIONES } from "graphql/proyectos/mutations";
 import { Tooltip } from "@mui/material";
+import { GET_INSCRIPCION } from "graphql/inscripciones/queries";
 const Proyecto = () => {
   const { idProyecto } = useParams();
   const { userData } = useUser();
@@ -79,14 +80,16 @@ const Proyecto = () => {
         <div className="justify-center text-white items-center">
           {mostrarInputs ? (
             <>
-              <div className="absolute right-14 md:right-20 md:top-20">
-                <PrivateComponent roleList={["ADMINISTRADOR"]}>
-                  <i
-                    className="mx-4 fas fa-times text-red-600 hover:text-red-700"
-                    onClick={() => setMostrarInputs(!mostrarInputs)}
-                  />
-                </PrivateComponent>
-              </div>
+              <Tooltip title="Cerrar" arrow>
+                <div className="absolute  right-3 top-5 sm:right-20 sm:top-20">
+                  <PrivateComponent roleList={["ADMINISTRADOR", "LIDER"]}>
+                    <i
+                      className="mx-4 fas fa-times text-red-600 hover:text-red-700"
+                      onClick={() => setMostrarInputs(!mostrarInputs)}
+                    />
+                  </PrivateComponent>
+                </div>
+              </Tooltip>
               <form
                 ref={form}
                 onChange={updateFormData}
@@ -149,12 +152,14 @@ const Proyecto = () => {
             <div className="">
               {userData._id === queryData.Proyecto.lider._id &&
               queryData.Proyecto.estado === "ACTIVO" ? (
-                <div className="absolute md:right-20 md:top-20">
+                <div className="absolute right-3 top-5 sm:right-20 sm:top-20">
                   <PrivateComponent roleList={["ADMINISTRADOR", "LIDER"]}>
-                    <i
-                      className="mx-4 fas fa-pen text-yellow-600 hover:text-yellow-400"
-                      onClick={() => setMostrarInputs(!mostrarInputs)}
-                    />
+                    <Tooltip title="Editar" arrow>
+                      <i
+                        className="mx-4 fas fa-pen text-yellow-600 hover:text-yellow-400"
+                        onClick={() => setMostrarInputs(!mostrarInputs)}
+                      />
+                    </Tooltip>
                   </PrivateComponent>
                 </div>
               ) : (
@@ -164,7 +169,7 @@ const Proyecto = () => {
                 <h2 className="font-24 text-white font-bold">
                   {queryData.Proyecto.nombre}
                 </h2>
-                <PrivateComponent roleList={["ESTUDIANTE", "ADMINISTRADOR"]}>
+                <PrivateComponent roleList={["ESTUDIANTE"]}>
                   <InscripcionProyecto
                     idProyecto={queryData.Proyecto._id}
                     estado={queryData.Proyecto.estado}
@@ -242,14 +247,11 @@ const Proyecto = () => {
                 <h2>Avances</h2>
               </AccordionSummaryStyled>
               <AccordionDetailsStyled>
-                {/* {userData._id ===
-                queryData.Proyecto.inscripciones.estudiante._id
-                  ? "usuario encontrado"
-                  : " no pude"} */}
                 <div className="">
                   <CrearAvance
                     creadoPor={userData._id}
                     idProyecto={queryData.Proyecto._id}
+                    userData={userData._id}
                   />
                 </div>
                 {queryData.Proyecto.avances.length > 0 ? (
@@ -320,15 +322,17 @@ const Objetivo = ({
   }, [dataMutation]);
 
   return (
-    <div className="mx-5 relative text-black my-4 bg-gray-50 p-8 rounded-lg flex flex-col shadow-xl">
+    <div className="sm:mx-5 relative text-black my-4 bg-gray-50 p-8 rounded-lg flex flex-col shadow-xl">
       {editar ? (
         <>
-          <div className="absolute right-14 md:right-5 md:top-5">
+          <div className="absolute right-1 top-3 md:right-5 md:top-5">
             <PrivateComponent roleList={["ADMINISTRADOR", "LIDER"]}>
-              <i
-                className="mx-4 fas fa-times text-red-600 hover:text-red-700"
-                onClick={() => setEditar(!editar)}
-              />
+              <Tooltip title="Cerrar" arrow>
+                <i
+                  className="mx-4 fas fa-times text-red-600 hover:text-red-700"
+                  onClick={() => setEditar(!editar)}
+                />
+              </Tooltip>
             </PrivateComponent>
           </div>
 
@@ -361,15 +365,27 @@ const Objetivo = ({
         </>
       ) : (
         <>
-          <div className="text-lg font-bold">{tipo}</div>
-          <div>{descripcion}</div>
+          <div className="text-lg font-bold">
+            <span>
+              Descripcion:
+              <p className="font-normal">{descripcion}</p>
+            </span>
+          </div>
+          <div className="text-lg font-bold">
+            <span>
+              Tipo:
+              <p className="font-normal">{tipo}</p>
+            </span>
+          </div>
           {userData._id === lider._id && estadoProyecto === "ACTIVO" ? (
             <PrivateComponent roleList={["ADMINISTRADOR", "LIDER"]}>
-              <div className="absolute md:right-5 md:top-5">
-                <i
-                  className="mx-4 fas fa-pen text-yellow-600 hover:text-yellow-400"
-                  onClick={() => setEditar(!editar)}
-                />
+              <div className="absolute right-1 top-3 md:right-5 md:top-5">
+                <Tooltip title="Editar Objetivo" arrow>
+                  <i
+                    className="mx-4 fas fa-pen text-yellow-600 hover:text-yellow-400"
+                    onClick={() => setEditar(!editar)}
+                  />
+                </Tooltip>
               </div>
             </PrivateComponent>
           ) : (
@@ -413,12 +429,14 @@ const CrearObjetivo = ({ idProyecto }) => {
     <div className="">
       {mostrar ? (
         <>
-          <div className="absolute md:right-5 md:top-5">
+          <div className="absolute left-20 top-5 sm:right-5 sm:top-5">
             <PrivateComponent roleList={["ADMINISTRADOR", "LIDER"]}>
-              <i
-                className="mx-4 fas fa-times text-red-600 hover:text-red-400"
-                onClick={() => setMostrar(!mostrar)}
-              />
+              <Tooltip title="Cerrar" arrow>
+                <i
+                  className="mx-4 fas fa-times text-red-600 hover:text-red-400"
+                  onClick={() => setMostrar(!mostrar)}
+                />
+              </Tooltip>
             </PrivateComponent>
           </div>
           <form
@@ -448,12 +466,14 @@ const CrearObjetivo = ({ idProyecto }) => {
         </>
       ) : (
         <>
-          <div className="absolute md:right-5 md:top-5">
+          <div className="absolute left-20 top-5 sm:right-5 sm:top-5">
             <PrivateComponent roleList={["ADMINISTRADOR", "LIDER"]}>
-              <i
-                className="mx-4 fas fa-plus text-green-600 hover:text-green-400"
-                onClick={() => setMostrar(!mostrar)}
-              />
+              <Tooltip title="Crear Objetivo" arrow>
+                <i
+                  className="mx-4 fas fa-plus text-green-600 hover:text-green-400"
+                  onClick={() => setMostrar(!mostrar)}
+                />
+              </Tooltip>
             </PrivateComponent>
           </div>
         </>
@@ -471,12 +491,14 @@ const EliminarObjetivo = ({ idProyecto, idObjetivo }) => {
     });
 
   return (
-    <div className="absolute right-14 md:right-10 md:top-8 cursor-pointer">
+    <div className="absolute right-3 top-1/2 md:right-10 md:top-8 cursor-pointer">
       <PrivateComponent roleList={["ADMINISTRADOR", "LIDER"]}>
-        <i
-          className="mx-4 fas fa-minus text-red-600 hover:text-red-700"
-          onClick={() => eliminarObjetivo()}
-        />
+        <Tooltip title="Eliminar Objetivo" arrow>
+          <i
+            className="mx-4 fas fa-minus text-red-600 hover:text-red-700"
+            onClick={() => eliminarObjetivo()}
+          />
+        </Tooltip>
       </PrivateComponent>
     </div>
   );
@@ -530,15 +552,17 @@ const Avance = ({
   };
 
   return (
-    <div className="mx-5 relative text-black my-4 bg-gray-50 p-8 rounded-lg flex flex-col shadow-xl">
+    <div className="sm:mx-5 relative text-black my-4 bg-gray-50 p-8 rounded-lg flex flex-col shadow-xl">
       {editarDesc ? (
         <>
-          <div className="absolute md:right-5 md:top-5">
-            <PrivateComponent roleList={["ADMINISTRADOR", "LIDER"]}>
-              <i
-                className="mx-4 fas fa-times text-red-600 hover:text-red-400"
-                onClick={() => setEditarDesc(!editarDesc)}
-              />
+          <div className="absolute sm:right-5 right-1 top-3 sm:top-5 ">
+            <PrivateComponent roleList={["ADMINISTRADOR", "ESTUDIANTE"]}>
+              <Tooltip title="Cerrar" arrow>
+                <i
+                  className="mx-4 fas fa-times text-red-600 hover:text-red-400"
+                  onClick={() => setEditarDesc(!editarDesc)}
+                />
+              </Tooltip>
             </PrivateComponent>
           </div>
 
@@ -567,40 +591,55 @@ const Avance = ({
         </>
       ) : (
         <>
-          <div className="text-lg font-bold">{fecha}</div>
-          {/* observaciones */}
-          <div>{observaciones}</div>
-          {/* descripcion */}
+          <div className="">
+            <span className="font-semibold">
+              Descripción: <p className="font-normal">{descripcion}</p>
+            </span>
+          </div>
+
+          <div className="">
+            <span className="font-semibold">
+              Observaciones: <p className="font-normal">{observaciones}</p>
+            </span>
+          </div>
+          <div className="">
+            <span className="font-semibold">
+              Creado por:{" "}
+              <p className="font-normal">
+                {creadoPor} - {fecha}
+              </p>
+            </span>
+          </div>
           <>
             <div className="">
               {userData === idUsuario ? (
-                <div className="absolute md:right-10 md:top-10">
+                <div className="absolute sm:right-5 right-1 top-3 sm:top-5">
                   <PrivateComponent roleList={["ADMINISTRADOR", "ESTUDIANTE"]}>
-                    <i
-                      className="mx-4 fas fa-pen text-yellow-600 hover:text-yellow-400"
-                      onClick={() => setEditarDesc(!editarDesc)}
-                    />
+                    <Tooltip title="Editar Descripción" arrow>
+                      <i
+                        className="mx-4 fas fa-pen text-yellow-600 hover:text-yellow-400"
+                        onClick={() => setEditarDesc(!editarDesc)}
+                      />
+                    </Tooltip>
                   </PrivateComponent>
                 </div>
               ) : (
                 ""
               )}
-
-              <div className="">{descripcion}</div>
             </div>
           </>
-
-          <div>{creadoPor}</div>
         </>
       )}
       {editarObs ? (
         <>
-          <div className="absolute md:right-5 md:top-5">
+          <div className="absolute sm:right-5 right-1 top-9 sm:top-5">
             <PrivateComponent roleList={["ADMINISTRADOR", "LIDER"]}>
-              <i
-                className="mx-4 fas fa-times text-red-600 hover:text-red-400"
-                onClick={() => setEditarObs(!editarObs)}
-              />
+              <Tooltip title="Cerrar" arrow>
+                <i
+                  className="mx-4 fas fa-times text-red-600 hover:text-red-400"
+                  onClick={() => setEditarObs(!editarObs)}
+                />
+              </Tooltip>
             </PrivateComponent>
           </div>
 
@@ -630,12 +669,14 @@ const Avance = ({
       ) : (
         <>
           {userData === lider ? (
-            <div className="absolute md:right-5 md:top-5">
+            <div className="absolute sm:right-5 right-1 top-9 sm:top-5">
               <PrivateComponent roleList={["ADMINISTRADOR", "LIDER"]}>
-                <i
-                  className="mx-4 fas fa-pen text-yellow-600 hover:text-yellow-400"
-                  onClick={() => setEditarObs(!editarObs)}
-                />
+                <Tooltip title="Editar Observaciones" arrow>
+                  <i
+                    className="mx-4 fas fa-pen text-yellow-600 hover:text-yellow-400"
+                    onClick={() => setEditarObs(!editarObs)}
+                  />
+                </Tooltip>
               </PrivateComponent>
             </div>
           ) : (
@@ -647,7 +688,7 @@ const Avance = ({
   );
 };
 
-const CrearAvance = ({ idProyecto, creadoPor }) => {
+const CrearAvance = ({ idProyecto, creadoPor, userData }) => {
   const [mostrar, setMostrar] = useState(false);
   const { form, formData, updateFormData } = useFormData();
   const [crearAvance, { data: dataMutation, loading, error }] =
@@ -658,6 +699,13 @@ const CrearAvance = ({ idProyecto, creadoPor }) => {
     errorP,
   } = useQuery(PROYECTO, {
     variables: { _id: idProyecto },
+  });
+  const {
+    data: queryDataI,
+    loadingI,
+    errorI,
+  } = useQuery(GET_INSCRIPCION, {
+    variables: { estudiante: userData, proyecto: idProyecto },
   });
   const submitForm = (e) => {
     e.preventDefault();
@@ -682,18 +730,24 @@ const CrearAvance = ({ idProyecto, creadoPor }) => {
     console.log("data mutation crear Avance", dataMutation);
   }, [dataMutation]);
 
+  useEffect(() => {
+    console.log("Inscripcion Usuario", queryDataI);
+  }, [queryDataI]);
+
   return (
     <div className="">
       {mostrar ? (
         <>
-          <div className="absolute md:right-5 md:top-5">
-            <PrivateComponent roleList={["ESTUDIANTE"]}>
-              <i
-                className="mx-4 fas fa-times text-red-600 hover:text-red-400"
-                onClick={() => setMostrar(!mostrar)}
-              />
-            </PrivateComponent>
-          </div>
+          <PrivateComponent roleList={["ESTUDIANTE"]}>
+            <div className="absolute left-16 top-5 sm:right-5 sm:top-5">
+              <Tooltip title="Cerrar" arrow>
+                <i
+                  className="mx-4 fas fa-times text-red-600 hover:text-red-400"
+                  onClick={() => setMostrar(!mostrar)}
+                />
+              </Tooltip>
+            </div>
+          </PrivateComponent>
           <form
             ref={form}
             onChange={updateFormData}
@@ -721,14 +775,18 @@ const CrearAvance = ({ idProyecto, creadoPor }) => {
           </form>
         </>
       ) : (
-        <div className="absolute md:right-5 md:top-5">
+        <>
           <PrivateComponent roleList={["ESTUDIANTE"]}>
-            <i
-              className="mx-4 fas fa-plus text-green-600 hover:text-green-400"
-              onClick={() => setMostrar(!mostrar)}
-            />
+            <div className="absolute left-16 top-5 sm:right-5 sm:top-5">
+              <Tooltip title="Crear Avance" arrow>
+                <i
+                  className="mx-4 fas fa-plus text-green-600 hover:text-green-400"
+                  onClick={() => setMostrar(!mostrar)}
+                />
+              </Tooltip>
+            </div>
           </PrivateComponent>
-        </div>
+        </>
       )}
     </div>
   );

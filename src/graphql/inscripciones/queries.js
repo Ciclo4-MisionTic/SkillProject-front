@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 const GET_INSCRIPCIONES = gql`
   query Inscripciones {
@@ -21,5 +21,15 @@ const GET_INSCRIPCIONES = gql`
     }
   }
 `;
-
-export { GET_INSCRIPCIONES };
+const GET_INSCRIPCION = gql`
+  query InscripcionDelEstudiante($estudiante: String!, $proyecto: String!) {
+    InscripcionDelEstudiante(estudiante: $estudiante, proyecto: $proyecto) {
+      _id
+      estado
+      estudiante {
+        _id
+      }
+    }
+  }
+`;
+export { GET_INSCRIPCIONES,  GET_INSCRIPCION };

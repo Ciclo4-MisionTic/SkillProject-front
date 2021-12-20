@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { PROYECTOS } from "graphql/proyectos/queries";
 import DropDown from "components/Dropdown";
-import { Dialog } from "@mui/material";
+import { Dialog, Tooltip } from "@mui/material";
 import { Enum_EstadoProyecto } from "utils/enums";
 import { Enum_FaseProyecto } from "utils/enums";
 import ButtonLoading from "components/ButtonLoading";
@@ -21,7 +21,13 @@ const IndexProyectos = () => {
   }, [queryData]);
 
   if (loading) return <div>Cargando...</div>;
-
+  if (error)
+    return (
+      <div>
+        Ups no pude cargar este proyecto, habla con el lider para tener mas
+        información{" "}
+      </div>
+    );
   if (queryData.Proyectos && userData.estado === "AUTORIZADO") {
     return (
       <>
@@ -67,35 +73,35 @@ const AccordionProyecto = ({ proyecto }) => {
   return (
     <div className="shadow rounded-xl relative justify-center px-6 py-6 bg-gray-200 text-gray-900">
       <Link to={`/proyectos/${proyecto._id}`}>
-        <div className="flex w-full ">
+        <div className="flex w-full justify-between">
           <h2 className="uppercase font-bold font-20 ">{proyecto.nombre}</h2>
+          <div className="">
+            {proyecto.estado}
+            {proyecto.estado === "INACTIVO" ? (
+              <i className="fas fa-circle px-3 text-red-600" />
+            ) : (
+              <i className="fas fa-circle px-3 text-green-500" />
+            )}
+          </div>
         </div>
         <div>
           <p>
             Liderado Por: {proyecto.lider.nombre} {proyecto.lider.apellido}
           </p>
-          <div className="flex flex-col md:absolute md:right-12 md:top-12">
-            <div className="">
-              {proyecto.estado}
-              {proyecto.estado === "INACTIVO" ? (
-                <i className="fas fa-circle px-3 text-red-600" />
-              ) : (
-                <i className="fas fa-circle px-3 text-green-500" />
-              )}
-            </div>
-          </div>
         </div>
       </Link>
 
       {/* editar */}
       <div className="absolute right-0 top-3">
         <PrivateComponent roleList={["ADMINISTRADOR"]}>
-          <i
-            className="mx-4 fas fa-pen text-yellow-600 hover:text-yellow-400"
-            onClick={() => {
-              setShowDialog(true);
-            }}
-          />
+          <Tooltip title="Editar Estado y Fase" arrow>
+            <i
+              className="mx-4 fas fa-pen text-yellow-600 hover:text-yellow-400"
+              onClick={() => {
+                setShowDialog(true);
+              }}
+            />
+          </Tooltip>
         </PrivateComponent>
       </div>
       {/* inscribirse */}
@@ -137,6 +143,10 @@ const FormEditProyecto = ({ _id, estado, fase }) => {
         campos: formData,
       },
     });
+
+    editarProyecto
+      ? toast.success("El estado, Fase del proyecto actualizado con exito")
+      : toast.error("Ups algo ha fallado actualizando el proyecto");
   };
 
   useEffect(() => {
@@ -145,25 +155,22 @@ const FormEditProyecto = ({ _id, estado, fase }) => {
 
   return (
     <div className="p-4">
-      <h1 className="font-bold">Modificar Estado del Proyecto</h1>
+      <h1 className="font-bold">Modificar Estado y Fase del Proyecto</h1>
       <form
         ref={form}
         onChange={updateFormData}
         onSubmit={submitForm}
         className="flex flex-col items-center"
       >
+        <label htmlFor="estado">Actualizar estado del proyecto</label>
         <DropDown
-          label="Estado del Proyecto"
           name="estado"
           options={Enum_EstadoProyecto}
           defaultValue={estado}
         />
-        <DropDown
-          label="Estado del Proyecto"
-          name="fase"
-          options={Enum_FaseProyecto}
-          defaultValue={fase}
-        />
+        <label htmlFor="fase">Actualizar fase del proyecto</label>
+
+        <DropDown name="fase" options={Enum_FaseProyecto} defaultValue={fase} />
         <ButtonLoading disabled={false} loading={loading} text="Confirmar" />
       </form>
     </div>
